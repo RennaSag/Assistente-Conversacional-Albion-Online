@@ -11,17 +11,22 @@ import javafx.scene.text.TextFlow;
 
 public class PrimaryController {
 
-    @FXML private VBox messagesBox;
-    @FXML private TextField inputField;
-    @FXML private ScrollPane scrollPane;
-    @FXML private Label statusLabel;
+    @FXML
+    private VBox messagesBox;
+    @FXML
+    private TextField inputField;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private Label statusLabel;
 
     private final MarketService marketService = new MarketService();
     private final GeminiService geminiService = new GeminiService();
 
     @FXML
     public void initialize() {
-        adicionarMensagemAssistente("Fala meu fi pergunta alguma coisa ae mete brasa que eu sou espertao e vou responder");
+        adicionarMensagemAssistente("Fala meu fi pergunta alguma coisa ae mete " +
+                "brasa que eu sou espertao e vou responder oce");
     }
 
     @FXML
