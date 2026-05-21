@@ -3,23 +3,49 @@ package com.albion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MarketService {
 
 
+    private static final Map<Integer, String> CIDADES = Map.ofEntries(
+            // Cidades principais
+            Map.entry(4, "Caerleon"),
+            Map.entry(7, "Fort Sterling"),
+            Map.entry(8, "Mercado Negro (Caerleon)"),
+            Map.entry(1002, "Lymhurst"),
+            Map.entry(2004, "Bridgewatch"),
+            Map.entry(3003, "Martlock"),
+            Map.entry(3005, "Martlock"),
+            Map.entry(3008, "Martlock"),
+            Map.entry(4002, "Thetford"),
+            Map.entry(5003, "Fort Sterling"),
+
+            Map.entry(307, "Zona Vermelha"),
+            Map.entry(320, "Zona Vermelha"),
+            Map.entry(1006, "Lymhurst (Portal)"),
+            Map.entry(2002, "Bridgewatch (Portal)"),
+            Map.entry(2308, "Zona Preta"),
+            Map.entry(3002, "Martlock (Portal)"),
+            Map.entry(3306, "Zona Preta"),
+            Map.entry(4006, "Thetford (Portal)"),
+            Map.entry(4300, "Zona Preta")
+    );
+
+
     public String buscarPrecoItem(String itemIdBase, int limite) throws SQLException {
         String sql = """
-        SELECT item_id, location, quality,
-               AVG(silver_amount::float / NULLIF(item_amount, 0)) AS preco_medio,
-               SUM(item_amount) AS volume_total,
-               MAX(timestamp) AS ultima_atualizacao
-        FROM market_history
-        WHERE item_id LIKE ?
-          AND timestamp >= (SELECT MAX(timestamp) - INTERVAL '7 days' FROM market_history)
-        GROUP BY item_id, location, quality
-        ORDER BY item_id, preco_medio ASC
-        LIMIT ?
-        """;
+                SELECT item_id, location, quality,
+                       AVG(silver_amount::float / NULLIF(item_amount, 0)) AS preco_medio,
+                       SUM(item_amount) AS volume_total,
+                       MAX(timestamp) AS ultima_atualizacao
+                FROM market_history
+                WHERE item_id LIKE ?
+                  AND timestamp >= (SELECT MAX(timestamp) - INTERVAL '7 days' FROM market_history)
+                GROUP BY item_id, location, quality
+                ORDER BY item_id, preco_medio ASC
+                LIMIT ?
+                """;
 
         Connection conn = DatabaseConnection.get();
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -41,20 +67,20 @@ public class MarketService {
                 enchant = Integer.parseInt(itemId.split("@")[1]);
             }
             sb.append(String.format(
-                    "- %s | Encant: %d | Cidade: %d | Qualidade: %d | Preço médio: %.0f silver | Volume: %d\n",
+                    "- %s | Encant: %d | Cidade: %s | Qualidade: %d | Preço médio: %.0f silver | Volume: %d\\n",
                     itemId,
                     enchant,
-                    rs.getInt("location"),
+                    CIDADES.getOrDefault(rs.getInt("location"), "Zona " + rs.getInt("location")),
                     rs.getInt("quality"),
                     rs.getDouble("preco_medio"),
                     rs.getLong("volume_total")
             ));
         }
 
-        System.out.println("DEBUG found: " + found); // retornou alguma linha?
+        System.out.println("DEBUG found: " + found);
         System.out.println("DEBUG resultado: " + sb.toString());
 
-        if (!found) sb.append("Nenhum dado encontrado nos últimos 7 days.\n");
+        if (!found) sb.append("Nenhum dado encontrado nos últimos 7 dias.\n");
         rs.close();
         ps.close();
         return sb.toString();
@@ -111,7 +137,7 @@ public class MarketService {
         ResultSet rs = st.executeQuery(sql);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Preço do ouro nas últimas 24h:\n");
+        //sb.append("Preço do ouro nas últimas 24h:\n");
 
         while (rs.next()) {
             sb.append(String.format(
@@ -140,14 +166,23 @@ public class MarketService {
 
         String itemIdBase = ItemCatalogo.buscarIdNaPergunta(pergunta);
         if (itemIdBase != null) {
-            // Extrai tier da pergunta (t4, t5, t6 etc)
             String tier = "";
+            String enchant = "";
+
+
             java.util.regex.Matcher m = java.util.regex.Pattern
-                    .compile("t(\\d)").matcher(p);
+                    .compile("[tT]?(\\d)(?:\\.(\\d))?").matcher(p);
+
             if (m.find()) {
                 tier = "T" + m.group(1) + "_";
+                if (m.group(2) != null) {
+                    enchant = "@" + m.group(2);
+                }
+            } else {
+                return "Não foi possível identificar o tier do item. Especifique o tier (ex: T5, T5.1).";
             }
-            String itemIdCompleto = tier + itemIdBase;
+
+            String itemIdCompleto = tier + itemIdBase + enchant;
             System.out.println("DEBUG buscando: " + itemIdCompleto);
             return buscarPrecoItem(itemIdCompleto, 20);
         }
