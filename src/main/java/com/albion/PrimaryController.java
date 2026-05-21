@@ -21,7 +21,7 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
-        adicionarMensagemAssistente("Olá, aventureiro! Sou seu assistente de mercado de Albion Online. Pergunte sobre preços, itens mais negociados, ouro ou tendências de mercado.");
+        adicionarMensagemAssistente("Fala meu fi pergunta alguma coisa ae mete brasa que eu sou espertao e vou responder");
     }
 
     @FXML
@@ -32,7 +32,7 @@ public class PrimaryController {
         adicionarMensagemUsuario(pergunta);
         inputField.clear();
         inputField.setDisable(true);
-        statusLabel.setText("● Processando...");
+        statusLabel.setText("Processando...");
         statusLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #C9A84C;");
 
         new Thread(() -> {
@@ -43,14 +43,14 @@ public class PrimaryController {
                     adicionarMensagemAssistente(resposta);
                     inputField.setDisable(false);
                     inputField.requestFocus();
-                    statusLabel.setText("● Online");
+                    statusLabel.setText("Online");
                     statusLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #3FB950;");
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     adicionarMensagemAssistente("Erro: " + e.getMessage());
                     inputField.setDisable(false);
-                    statusLabel.setText("● Online");
+                    statusLabel.setText("Online");
                     statusLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #3FB950;");
                 });
             }
@@ -60,7 +60,7 @@ public class PrimaryController {
     @FXML
     private void onRelatorio() {
         inputField.setDisable(true);
-        statusLabel.setText("● Gerando relatório...");
+        statusLabel.setText("Gerando relatório...");
         statusLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #C9A84C;");
         adicionarMensagemUsuario("Gerar relatório de mercado");
 
@@ -74,14 +74,14 @@ public class PrimaryController {
                 Platform.runLater(() -> {
                     adicionarMensagemAssistente(resposta);
                     inputField.setDisable(false);
-                    statusLabel.setText("● Online");
+                    statusLabel.setText("Online");
                     statusLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #3FB950;");
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> {
                     adicionarMensagemAssistente("Erro: " + e.getMessage());
                     inputField.setDisable(false);
-                    statusLabel.setText("● Online");
+                    statusLabel.setText("Online");
                     statusLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #3FB950;");
                 });
             }
