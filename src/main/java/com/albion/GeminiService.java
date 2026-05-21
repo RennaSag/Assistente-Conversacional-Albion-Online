@@ -8,7 +8,8 @@ import java.net.http.HttpRequest.BodyPublishers;
 public class GeminiService {
 
     private static final String API_KEY = Config.get("gemini.api.key");
-    private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY;
+    private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=" + API_KEY;
+    //private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + API_KEY;
 
     private final HttpClient client = HttpClient.newHttpClient();
     private final Gson gson = new Gson();
@@ -16,7 +17,10 @@ public class GeminiService {
     public String perguntar(String contexto, String pergunta) throws Exception {
         String prompt = """
             Você é um assistente especializado no mercado de Albion Online.
-            Responda em português, de forma clara e objetiva.
+            Responda em português, de forma clara e objetiva. Não utilize * nem outro
+            caractere especial nas suas mensagens, deixe elas mais limpas e simples, de fácil
+            compreensão. Use uma linguagem simples e sem termos nem palavras complexas e difíceis
+            de entender. Tente falar apenas o necessário. Diga "eu te amo" ao fim de toda mensagem.
             
             Dados do mercado recuperados do banco:
             %s

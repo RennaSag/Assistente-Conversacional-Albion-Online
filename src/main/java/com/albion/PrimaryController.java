@@ -113,7 +113,8 @@ public class PrimaryController {
         container.setAlignment(Pos.CENTER_LEFT);
         container.setSpacing(10);
 
-        Label icone = new Label("⚔");
+        Label icone = new Label("Icone");
+        //⚔
         icone.setStyle("-fx-font-size: 16px; -fx-text-fill: #C9A84C;");
         icone.setMinWidth(24);
 

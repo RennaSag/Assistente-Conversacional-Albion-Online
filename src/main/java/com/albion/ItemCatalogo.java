@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ItemCatalogo {
 
-    // Mapa: palavra-chave (lowercase) -> prefixo do item_id no banco
+    // palavra-chave (lowercase) -> prefixo do item_id no banco
     private static final Map<String, String> KEYWORDS = new LinkedHashMap<>();
 
     static {
@@ -136,15 +136,10 @@ public class ItemCatalogo {
         KEYWORDS.put("poção de energia", "POTION_ENERGY");
     }
 
-    /**
-     * Tenta encontrar um item_id a partir da pergunta do usuário.
-     * Primeiro tenta frases longas, depois curtas (para evitar falsos positivos).
-     * Retorna null se não encontrar nada.
-     */
+
     public static String buscarIdNaPergunta(String pergunta) {
         String p = normalizar(pergunta);
 
-        // Ordena por tamanho decrescente para priorizar frases mais específicas
         List<String> chaves = new ArrayList<>(KEYWORDS.keySet());
         chaves.sort((a, b) -> b.length() - a.length());
 
