@@ -15,7 +15,7 @@ public class MarketService {
                MAX(timestamp) AS ultima_atualizacao
         FROM market_history
         WHERE item_id LIKE ?
-          AND timestamp >= NOW() - INTERVAL '7 days'
+          AND timestamp >= (SELECT MAX(timestamp) - INTERVAL '7 days' FROM market_history)
         GROUP BY item_id, location, quality
         ORDER BY item_id, preco_medio ASC
         LIMIT ?
@@ -26,6 +26,8 @@ public class MarketService {
         ps.setString(1, "%" + itemIdBase + "%");
         ps.setInt(2, limite);
         ResultSet rs = ps.executeQuery();
+
+        System.out.println("DEBUG SQL: " + ps.toString());
 
         StringBuilder sb = new StringBuilder();
         sb.append("Dados de mercado para '").append(itemIdBase).append("':\n");
@@ -49,6 +51,9 @@ public class MarketService {
             ));
         }
 
+        System.out.println("DEBUG found: " + found); // retornou alguma linha?
+        System.out.println("DEBUG resultado: " + sb.toString());
+
         if (!found) sb.append("Nenhum dado encontrado nos últimos 7 days.\n");
         rs.close();
         ps.close();
@@ -62,7 +67,7 @@ public class MarketService {
                        SUM(item_amount) AS volume_total,
                        AVG(silver_amount::float / NULLIF(item_amount, 0)) AS preco_medio
                 FROM market_history
-                WHERE timestamp >= NOW() - INTERVAL '3 days'
+                WHERE timestamp >= (SELECT MAX(timestamp) - INTERVAL '3 days' FROM market_history)
                 GROUP BY item_id
                 ORDER BY volume_total DESC
                 LIMIT ?
@@ -140,7 +145,7 @@ public class MarketService {
             java.util.regex.Matcher m = java.util.regex.Pattern
                     .compile("t(\\d)").matcher(p);
             if (m.find()) {
-                tier = "T" + m.group(1) + "-";
+                tier = "T" + m.group(1) + "_";
             }
             String itemIdCompleto = tier + itemIdBase;
             System.out.println("DEBUG buscando: " + itemIdCompleto);
