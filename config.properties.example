@@ -1,0 +1,4 @@
+db.url=jdbc:postgresql://localhost:5432/banco_albion_llm
+db.user=postgres
+db.password=COLOQUE_SUA_SENHA_AQUI
+gemini.api.key=COLOQUE_SUA_CHAVE_AQUI

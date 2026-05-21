@@ -1,0 +1,8 @@
+module-info.class
+com\albion\App.class
+com\albion\Config.class
+com\albion\GeminiService.class
+com\albion\ItemCatalogo.class
+com\albion\MarketService.class
+com\albion\PrimaryController.class
+com\albion\DatabaseConnection.class

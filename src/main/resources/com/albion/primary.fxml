@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.albion.PrimaryController"
+      spacing="0"
+      style="-fx-background-color: #0D1117;">
+
+   <!-- Header -->
+   <HBox style="-fx-background-color: #161B22; -fx-border-color: #C9A84C; -fx-border-width: 0 0 2 0; -fx-padding: 16 24 16 24;" alignment="CENTER_LEFT" spacing="12">
+      <Label text="⚔"
+             style="-fx-font-size: 28px; -fx-text-fill: #C9A84C;"/>
+      <VBox spacing="2">
+         <Label text="ALBION MARKET ASSISTANT"
+                style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #C9A84C; -fx-font-family: 'Georgia';"/>
+         <Label text="Inteligência de Mercado com IA"
+                style="-fx-font-size: 11px; -fx-text-fill: #8B949E; -fx-font-family: 'Georgia';"/>
+      </VBox>
+      <Region HBox.hgrow="ALWAYS"/>
+      <Label fx:id="statusLabel" text="● Online"
+             style="-fx-font-size: 11px; -fx-text-fill: #3FB950;"/>
+   </HBox>
+
+   <!-- Chat Area -->
+   <VBox VBox.vgrow="ALWAYS" style="-fx-padding: 16 24 0 24;" spacing="0">
+      <ScrollPane fx:id="scrollPane" fitToWidth="true" VBox.vgrow="ALWAYS"
+                  style="-fx-background: #0D1117; -fx-background-color: #0D1117; -fx-border-color: #30363D; -fx-border-radius: 8; -fx-background-radius: 8;">
+         <VBox fx:id="messagesBox" spacing="12" style="-fx-padding: 16; -fx-background-color: #0D1117;">
+            <!-- Mensagens aparecem aqui dinamicamente -->
+         </VBox>
+      </ScrollPane>
+   </VBox>
+
+   <!-- Input Area -->
+   <VBox style="-fx-padding: 16 24 20 24;" spacing="10">
+      <HBox spacing="10" alignment="CENTER">
+         <TextField fx:id="inputField"
+                    promptText="Pergunte sobre preços, itens, cidades..."
+                    HBox.hgrow="ALWAYS"
+                    style="-fx-background-color: #161B22; -fx-text-fill: #E6EDF3; -fx-prompt-text-fill: #484F58; -fx-border-color: #30363D; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 10 14 10 14; -fx-font-size: 13px;"
+                    onAction="#onPerguntar"/>
+         <Button text="Enviar ⚔"
+                 onAction="#onPerguntar"
+                 style="-fx-background-color: #C9A84C; -fx-text-fill: #0D1117; -fx-font-weight: bold; -fx-font-size: 13px; -fx-padding: 10 20 10 20; -fx-border-radius: 6; -fx-background-radius: 6; -fx-cursor: hand;"/>
+      </HBox>
+      <Button text="📊  Gerar Relatório de Mercado"
+              onAction="#onRelatorio"
+              maxWidth="Infinity"
+              style="-fx-background-color: #1C2128; -fx-text-fill: #C9A84C; -fx-font-size: 13px; -fx-font-weight: bold; -fx-border-color: #C9A84C; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 10 0 10 0; -fx-cursor: hand;"/>
+   </VBox>
+</VBox>
