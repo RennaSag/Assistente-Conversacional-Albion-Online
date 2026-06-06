@@ -156,6 +156,12 @@ public class MarketService {
     public String gerarContexto(String pergunta) throws SQLException {
         String p = pergunta.toLowerCase();
 
+
+        System.out.println("DEBUG pergunta normalizada: " + p);
+        System.out.println("DEBUG itemId encontrado: " + ItemCatalogo.buscarIdNaPergunta(pergunta));
+
+
+
         if (p.contains("ouro") || p.contains("gold")) {
             return buscarPrecoOuro();
         }

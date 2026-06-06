@@ -25,8 +25,7 @@ public class PrimaryController {
 
     @FXML
     public void initialize() {
-        adicionarMensagemAssistente("Fala meu fi pergunta alguma coisa ae mete " +
-                "brasa que eu sou espertao e vou responder oce");
+        adicionarMensagemAssistente("Sou um assistente conversacional para preços de itens de Albion Online, faça alguma pergunta.");
     }
 
     @FXML
@@ -118,10 +117,14 @@ public class PrimaryController {
         container.setAlignment(Pos.CENTER_LEFT);
         container.setSpacing(10);
 
-        Label icone = new Label("Icone");
-        //⚔
-        icone.setStyle("-fx-font-size: 16px; -fx-text-fill: #C9A84C;");
-        icone.setMinWidth(24);
+        javafx.scene.image.Image img = new javafx.scene.image.Image(
+                getClass().getResourceAsStream("/com/albion/assistente.png")
+        );
+        javafx.scene.image.ImageView icone = new javafx.scene.image.ImageView(img);
+        icone.setFitWidth(28);
+        icone.setFitHeight(28);
+        icone.setPreserveRatio(true);
+
 
         Label label = new Label(texto);
         label.setWrapText(true);

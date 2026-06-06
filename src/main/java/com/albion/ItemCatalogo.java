@@ -41,6 +41,16 @@ public class ItemCatalogo {
         KEYWORDS.put("sapatos de cacador", "SHOES_LEATHER_SET2");
         KEYWORDS.put("sapatos de assassino", "SHOES_LEATHER_SET3");
 
+        // Botas no singular
+        KEYWORDS.put("bota de soldado", "SHOES_PLATE_SET1");
+        KEYWORDS.put("bota de cavaleiro", "SHOES_PLATE_SET2");
+        KEYWORDS.put("bota de guardiao", "SHOES_PLATE_SET3");
+        KEYWORDS.put("sandalia de erudito", "SHOES_CLOTH_SET1");
+        KEYWORDS.put("sandalia de mago", "SHOES_CLOTH_SET3");
+        KEYWORDS.put("sapato de mercenario", "SHOES_LEATHER_SET1");
+        KEYWORDS.put("sapato de cacador", "SHOES_LEATHER_SET2");
+        KEYWORDS.put("sapato de assassino", "SHOES_LEATHER_SET3");
+
         // Espadas
         KEYWORDS.put("espada larga", "MAIN_SWORD");
         KEYWORDS.put("espadas duplas", "2H_DUALSWORD");
