@@ -32,8 +32,8 @@ public class App extends Application {
             System.err.println("Erro na conexão: " + e.getMessage());
         }
 
-        scene = new Scene(loadFXML("primary"), 640, 480);
-        stage.setTitle("Albion Market Assistant");
+        scene = new Scene(loadFXML("primary"), 800,800);
+        stage.setTitle("Assistente com IA");
         stage.setScene(scene);
         stage.show();
     }
