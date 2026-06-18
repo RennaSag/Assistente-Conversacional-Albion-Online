@@ -23,6 +23,10 @@ public class PrimaryController {
     private final MarketService marketService = new MarketService();
     private final GeminiService geminiService = new GeminiService();
 
+
+    private final ChatHistoryService chatHistoryService = new ChatHistoryService();
+
+
     @FXML
     public void initialize() {
         adicionarMensagemAssistente("Sou um assistente conversacional para preços de itens de Albion Online, faça alguma pergunta.");
@@ -43,6 +47,13 @@ public class PrimaryController {
             try {
                 String contexto = marketService.gerarContexto(pergunta);
                 String resposta = geminiService.perguntar(contexto, pergunta);
+
+                try {
+                    chatHistoryService.salvar(pergunta, resposta, contexto);
+                } catch (Exception e) {
+                    System.err.println("Falha ao salvar histórico: " + e.getMessage());
+                }
+
                 Platform.runLater(() -> {
                     adicionarMensagemAssistente(resposta);
                     inputField.setDisable(false);
@@ -72,9 +83,16 @@ public class PrimaryController {
             try {
                 String contexto = marketService.buscarMaisNegociados(15)
                         + "\n" + marketService.buscarPrecoOuro();
-                String resposta = geminiService.perguntar(contexto,
-                        "Gere um relatório resumido do mercado de Albion Online com base nesses dados. " +
-                                "Destaque tendências, itens em alta e o comportamento do ouro.");
+                String pergunta = "Gere um relatório resumido do mercado de Albion Online com base nesses dados. " +
+                        "Destaque tendências, itens em alta e o comportamento do ouro.";
+                String resposta = geminiService.perguntar(contexto, pergunta);
+
+                try {
+                    chatHistoryService.salvar(pergunta, resposta, contexto);
+                } catch (Exception e) {
+                    System.err.println("Falha ao salvar histórico: " + e.getMessage());
+                }
+
                 Platform.runLater(() -> {
                     adicionarMensagemAssistente(resposta);
                     inputField.setDisable(false);
