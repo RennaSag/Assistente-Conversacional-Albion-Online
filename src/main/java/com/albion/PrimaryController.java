@@ -39,6 +39,20 @@ public class PrimaryController {
 
         adicionarMensagemUsuario(pergunta);
         inputField.clear();
+
+        String respostaForaDeEscopo = EscopoUtil.respostaSeForaDeEscopo(pergunta);
+        if (respostaForaDeEscopo != null) {
+            adicionarMensagemAssistente(respostaForaDeEscopo);
+            new Thread(() -> {
+                try {
+                    chatHistoryService.salvar(pergunta, respostaForaDeEscopo, null);
+                } catch (Exception e) {
+                    System.err.println("Falha ao salvar histórico: " + e.getMessage());
+                }
+            }).start();
+            return;
+        }
+
         inputField.setDisable(true);
         statusLabel.setText("Processando...");
         statusLabel.setStyle("-fx-font-size: 11px; -fx-text-fill: #C9A84C;");
